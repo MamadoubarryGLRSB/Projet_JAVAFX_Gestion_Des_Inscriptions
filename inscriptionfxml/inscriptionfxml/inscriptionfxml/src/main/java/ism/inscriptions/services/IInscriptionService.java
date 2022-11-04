@@ -28,6 +28,8 @@ public interface IInscriptionService {
    public List<Etudiant>  ListerInscristAnne(String annee);
    public Etudiant ajouterEtudiant(Etudiant etudiant);
    public Inscription ajouterInscription(Inscription inscription);
+   public  List<Professeur> listerProfesseur(Classe classe);
+   public  List<Etudiant> listerEtudiants(Classe classe);
    
      
 }

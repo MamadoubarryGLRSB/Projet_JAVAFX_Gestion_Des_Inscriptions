@@ -12,7 +12,7 @@
    <children>
       <BorderPane prefHeight="527.0" prefWidth="672.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
-            <AnchorPane prefHeight="527.0" prefWidth="673.0" style="-fx-background-color: #530153;" stylesheets="@../css/style.css" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="527.0" prefWidth="673.0" style="-fx-background-color: black;" stylesheets="@../css/style.css" BorderPane.alignment="CENTER">
                <children>
                   <Text fill="WHITE" layoutX="162.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gestion D'inscriptions ISM">
                      <font>
@@ -25,7 +25,7 @@
                      </font>
                   </Text>
                   <TextField fx:id="textLogin" layoutX="146.0" layoutY="159.0" prefHeight="51.0" prefWidth="483.0" />
-                  <Text fill="#fff2f2" layoutX="14.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" wrappingWidth="118.80419921875">
+                  <Text fill="#fff2f2" layoutX="9.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" wrappingWidth="118.80419921875">
                      <font>
                         <Font size="28.0" />
                      </font>
@@ -35,7 +35,7 @@
                         <Font size="24.0" />
                      </font>
                   </Button>
-                  <Button layoutX="427.0" layoutY="377.0" mnemonicParsing="false" onAction="#handConnexion" prefHeight="37.0" prefWidth="185.0" text="Connexion">
+                  <Button fx:id="btnConnexion" layoutX="427.0" layoutY="377.0" mnemonicParsing="false" onAction="#handConnexion" prefHeight="37.0" prefWidth="185.0" text="Connexion">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -45,7 +45,17 @@
                         <Font size="19.0" />
                      </font>
                   </Text>
-                  <PasswordField fx:id="textPassword" layoutX="146.0" layoutY="239.0" prefHeight="52.0" prefWidth="485.0" />
+                  <PasswordField fx:id="textPassword" layoutX="145.0" layoutY="254.0" prefHeight="52.0" prefWidth="485.0" />
+                  <Text fx:id="lbErrorLogin" fill="#d00d0d" layoutX="146.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login obligatoire" wrappingWidth="146.6708984375">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="lbErrorPassword" fill="#d00d0d" layoutX="145.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password obligatoire" wrappingWidth="180.6708984375">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
                </children>
             </AnchorPane>
          </center>

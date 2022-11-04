@@ -8,10 +8,6 @@ public class Inscription {
     private Etudiant etu;
     private static int nbr;
 
-   
-
-   
-
     public Inscription(String dateInscription, String annee, Etudiant etu) {
         this.dateInscription = dateInscription;
         this.annee = annee;
@@ -44,7 +40,6 @@ public class Inscription {
     }
 
    
-
     public String getAnnee() {
         return annee;
     }

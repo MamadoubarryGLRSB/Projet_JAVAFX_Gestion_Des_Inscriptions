@@ -2,10 +2,10 @@ package ism.inscriptions;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Screen;
+
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,17 +19,13 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("connexion"));
+        scene = new Scene(loadFXML("connexion"),935,700);
         stage.setScene(scene);
         stage.show();
     }
 
     public static void setRoot(String fxml) throws IOException {
-        Rectangle2D screen=Screen.getPrimary().getBounds();
-        scene.getWindow().setX(2);
-        scene.getWindow().setY(2);
-        scene.getWindow().setWidth(screen.getWidth());
-        scene.getWindow().setHeight(screen.getHeight());
+    
         scene.setRoot(loadFXML(fxml));
     }
 

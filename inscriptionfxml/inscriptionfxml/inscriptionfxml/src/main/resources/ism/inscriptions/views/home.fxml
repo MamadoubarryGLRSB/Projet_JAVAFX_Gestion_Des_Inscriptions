@@ -12,31 +12,31 @@
    <children>
       <BorderPane prefHeight="658.0" prefWidth="738.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <AnchorPane prefHeight="109.0" prefWidth="738.0" style="-fx-background-color: #530153;" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="85.0" prefWidth="738.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
                <children>
-                  <Text fill="#f8edf8" layoutX="212.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue">
+                  <Text fill="#f8edf8" layoutX="212.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue ,">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Text>
                   <Text fill="#fffbfb" layoutX="506.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Annee Scolaire 2022-2023" wrappingWidth="204.2841796875" />
-                  <ImageView fitHeight="154.0" fitWidth="183.0" layoutX="-2.0" layoutY="-4.0">
+                  <ImageView fitHeight="145.0" fitWidth="186.0" layoutY="-1.0">
                      <image>
-                        <Image url="@../css/image/ism.jpg" />
+                        <Image url="@../css/image/LOGO-ISM-SENEGAL-WIKI.jpg" />
                      </image>
                   </ImageView>
                </children>
             </AnchorPane>
          </top>
          <left>
-            <AnchorPane prefHeight="549.0" prefWidth="177.0" style="-fx-background-color: #530153;" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="549.0" prefWidth="177.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
                <children>
-                  <Text fill="#eee7e7" layoutX="39.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gestion">
+                  <Text fill="#eee7e7" layoutX="21.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gestion">
                      <font>
                         <Font size="21.0" />
                      </font>
                   </Text>
-                  <Text fill="#eee7e7" layoutX="51.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="D'inscription">
+                  <Text fill="#eee7e7" layoutX="51.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="D'inscription">
                      <font>
                         <Font size="21.0" />
                      </font>
@@ -65,7 +65,7 @@
             </AnchorPane>
          </left>
          <center>
-            <AnchorPane fx:id="anchorContent" prefHeight="506.0" prefWidth="560.0" BorderPane.alignment="CENTER" />
+            <AnchorPane fx:id="anchorContent" prefHeight="478.0" prefWidth="556.0" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </children>

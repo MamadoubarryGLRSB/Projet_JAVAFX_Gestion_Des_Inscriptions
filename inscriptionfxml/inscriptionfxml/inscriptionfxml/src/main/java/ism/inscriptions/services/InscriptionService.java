@@ -142,6 +142,18 @@ public class InscriptionService implements IInscriptionService{
         return iInscriptionRepository.insert(inscription);
     }
 
+    @Override
+    public List<Professeur> listerProfesseur(Classe classe) {
+        // TODO Auto-generated method stub
+        return iProfesseurRepository.findAllByClasse(classe);
+    }
+
+    @Override
+    public List<Etudiant> listerEtudiants(Classe classe) {
+        // TODO Auto-generated method stub
+        return iEtudiantRepository.findAllByClasse(classe);
+    }
+
     
     
 }

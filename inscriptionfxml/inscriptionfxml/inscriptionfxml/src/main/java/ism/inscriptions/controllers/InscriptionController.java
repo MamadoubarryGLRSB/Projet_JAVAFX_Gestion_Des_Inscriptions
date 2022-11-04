@@ -10,21 +10,22 @@ import ism.inscriptions.entities.Etudiant;
 import ism.inscriptions.entities.Inscription;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 
 public class InscriptionController implements Initializable{
 
     @FXML
-    private TextField textMatricule;
+    private TextField textMatricule,txtidAnnee;
 
     @FXML
     private TextField textNomPrenom;
@@ -55,8 +56,12 @@ public class InscriptionController implements Initializable{
     Etudiant etudiant;
     Inscription inscription;
     @FXML
-    ComboBox <Classe> cbox;
-    Classe classe;
+    ComboBox <Classe>cbox,cboxFiltreClasse;
+    Classe classe,classeFiltre;
+    @FXML
+    Text textMatriculeValid;
+    @FXML
+    Button btnAnnee;
     private ObservableList<Etudiant> obAetudiant=FXCollections.observableList(Fabrique.getService().listerEtudiant());
 
     @Override
@@ -66,34 +71,52 @@ public class InscriptionController implements Initializable{
         tbTuteur.setCellValueFactory(new PropertyValueFactory<>("tuteur"));
         tbNomComplet.setCellValueFactory(new PropertyValueFactory<>("nom_complet"));
         tbEtudiant.setItems(obAetudiant);
+        textMatriculeValid.setVisible(false);
         List<Classe>classes=Fabrique.getService().listerClasse();
-        for (Classe classe : classes) {
-            cbox.getItems().add(classe);
-            
-        }
-        cbox.setOnAction(this::selectClasse);
-        
+        cbox.getItems().addAll(classes);
+        cboxFiltreClasse.getItems().addAll(classes);
     }
-    public void selectClasse(ActionEvent event){
+    public void selectClasse(){
         classe=cbox.getValue();
 
     }
+    public void handleSeachAnnee() {
+        obAetudiant.clear();
+        String chercheAnnee = txtidAnnee.getText();
+        obAetudiant.addAll(Fabrique.getService().ListerInscristAnne(chercheAnnee));
+    }
 
+
+    public void handleSelectClasseByFiltre(){
+        classeFiltre=cboxFiltreClasse.getValue();
+        obAetudiant.clear();
+        obAetudiant.addAll(Fabrique.getService().listerEtudiants(classeFiltre));
+      
+
+      }
     public void hanlInscription(){
         String matricule=textMatricule.getText().trim();
-        String tuteur=textTuteur.getText().trim();
-        String nomPrenom=textNomPrenom.getText().trim();
-        String date=textDateIns.getText().trim();
-        String annee=textAnee.getText().trim();
-        etudiant=new Etudiant(nomPrenom, matricule, tuteur);
-        etudiant.setClasse(classe);
-        Fabrique.getService().ajouterEtudiant(etudiant);
-        inscription=new Inscription(annee, date, etudiant);
-        Fabrique.getService().ajouterInscription(inscription);
-        Alert alert=new Alert(AlertType.INFORMATION);
-        alert.setTitle("Gestion D'inscription");
-        alert.setContentText("Un Etudiant a été ajouter avec succès et vient d'etre inscrit");
-        alert.show();
+        if(Fabrique.getService().rechercherEtudiantParMatricule(matricule)==null){
+            String tuteur=textTuteur.getText().trim();
+            String nomPrenom=textNomPrenom.getText().trim();
+            String date=textDateIns.getText().trim();
+            String annee=textAnee.getText().trim();
+            etudiant=new Etudiant(nomPrenom, matricule, tuteur);
+            etudiant.setClasse(classe);
+            Fabrique.getService().ajouterEtudiant(etudiant);
+            inscription=new Inscription(annee, date, etudiant);
+            obAetudiant.add(etudiant);
+            Fabrique.getService().ajouterInscription(inscription);
+            Alert alert=new Alert(AlertType.INFORMATION);
+            alert.setTitle("Gestion D'inscription");
+            alert.setContentText("Un Etudiant a été ajouter avec succès et vient d'etre inscrit");
+            alert.show();  
+            textMatriculeValid.setVisible(false);  
+        }else{
+            textMatriculeValid.setVisible(true);
+            
+
+        }
         
 
     }

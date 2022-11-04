@@ -38,12 +38,6 @@ public class MysqlDb implements IDatabase {
             }
         }   
     }
-    public void preparerRequete(String sQL_INSERT) {
-    }
-    public int executeMisAJour() {
-        return 0;
-    }
-    public void setString(int i, String libelle) {
-    }
+    
     
 }

@@ -8,22 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ism.inscriptions.core.MysqlDb;
+import ism.inscriptions.entities.Classe;
 import ism.inscriptions.entities.Etudiant;
 import ism.inscriptions.repositories.IEtudiantRepository;
 
 public class EtudiantRepository extends MysqlDb implements IEtudiantRepository {
     private final String SQL_INSERT="INSERT INTO `user` (`nom_complet`,`matricule`, `tuteur`,`role`,`classe_id`) VALUES (?,?,?,?,?)";
     private final String SQL_SELECT_ALL="select * from user where role like 'ROLE_ETUDIANT' ";
-    private final String SQL_SELECT_INSCRITS_ANNEE="select * from user u,inscription i,classe c where "
-                                                     + "  role like 'ROLE_ETUDIANT' and  "
-                                                     + "  u.id_user=i.etu_id and i.classe_id=c.id_classe"
-                                                     + "  and annee_scolaire like ?";
+    private final String SQL_SELECT_INSCRITS_ANNEE = "SELECT * FROM `inscription` WHERE `annee` LIKE?";
     private final String SQL_SELECT_BY_MATRICULE="select * from user where role like 'ROLE_ETUDIANT' and matricule like ? ";
     private final String SQL_SELECT_INSCRITS_ANNEE_CLASSE="select * from user u,inscription i,classe c where "
                                                      + "  role like 'ROLE_ETUDIANT' and  "
                                                      + "  u.id_user=i.etu_id and i.classe_id=c.id_classe"
-                                                     + "  and annee_scolaire like ?"
+                                                     + "  and annee like ?"
                                                      + "  and c.id_classe=?";
+    private final String SQL_SELECT_BY_CLASSE="SELECT * from user where classe_id=? and role like 'ROLE_ETUDIANT' ";
+    private final String SQL_SELECT_BY_ID = "SELECT * FROM `user` WHERE `id`=?";
     ClasseRepository classeRepository=new ClasseRepository();
     @Override
     public Etudiant insert(Etudiant etu) {
@@ -75,22 +75,19 @@ public class EtudiantRepository extends MysqlDb implements IEtudiantRepository {
 
     @Override
     public List<Etudiant> findAll(String annee) {
-        List<Etudiant> etudiants=new ArrayList<>();
+        List<Etudiant> etudiants = new ArrayList<>();
         this.ouvrirConnexionBd();
-        
+
         try {
-            ps=conn.prepareStatement(SQL_SELECT_INSCRITS_ANNEE);
-            ps.setString(1,annee);
-            ResultSet rs=ps.executeQuery();
-            while(rs.next()){
-                Etudiant etu =new Etudiant(rs.getInt("id"), 
-                                            rs.getString("nom_complet"), 
-                                            rs.getString("matricule"),
-                                            rs.getString("tuteur"));
-                    etu.setClasse(classeRepository.findById(rs.getInt("id_classe")));
-                etudiants.add(etu);
-                }
-            
+            ps = conn.prepareStatement(SQL_SELECT_INSCRITS_ANNEE);
+            ps.setString(1, annee);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Etudiant etudiant =findById(rs.getInt("etu_id"));
+
+                etudiants.add(etudiant);
+            }
+
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -147,5 +144,54 @@ public class EtudiantRepository extends MysqlDb implements IEtudiantRepository {
         this.fermerConnexionBd();
         return etudiants;
     }
+ 
+    @Override
+    public List<Etudiant> findAllByClasse(Classe classe) {
+        List<Etudiant> etudiants=new ArrayList<>();
+        this.ouvrirConnexionBd();
+        try {
+            ps=conn.prepareStatement(SQL_SELECT_BY_CLASSE);
+            ps.setInt(1, classe.getId());
+            ResultSet rs=ps.executeQuery();
+            while(rs.next()){
+                    Etudiant etu =new Etudiant(rs.getInt("id"), 
+                                                rs.getString("nom_complet"), 
+                                                rs.getString("matricule"),
+                                                rs.getString("tuteur"));
+                                                
+                                            
+                etudiants.add(etu);
+                }
+            
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        this.fermerConnexionBd();
+        return etudiants;
+    }
+   
+    @Override
+    public Etudiant findById(int id) {
+        Etudiant etudiant = null;
+        this.ouvrirConnexionBd();
+        try {
+            ps = conn.prepareStatement(SQL_SELECT_BY_ID);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                etudiant = new Etudiant(rs.getInt("id"),
+                rs.getString("nom_complet"),
+                        rs.getString("matricule"),
+                        rs.getString("tuteur"));
+             }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        this.fermerConnexionBd();
+        return etudiant;
+    }
+
     
 }

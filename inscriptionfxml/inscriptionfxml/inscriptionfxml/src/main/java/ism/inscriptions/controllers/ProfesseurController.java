@@ -10,7 +10,7 @@ import ism.inscriptions.entities.Classe;
 import ism.inscriptions.entities.Professeur;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -20,6 +20,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 
 public class ProfesseurController implements Initializable{
   @FXML
@@ -39,8 +40,10 @@ public class ProfesseurController implements Initializable{
   TextField textNomPrenom,textLibelleProf,textAnnee;
   Professeur professeur;
   @FXML
-  ComboBox <Classe> cbox;
-  Classe classe;
+  ComboBox <Classe> cbox,cboxFilter;
+  Classe classe,classeFiltre;
+  @FXML
+  Text txtNciVald;
   
 @Override
 public void initialize(URL arg0, ResourceBundle arg1) {
@@ -49,23 +52,30 @@ public void initialize(URL arg0, ResourceBundle arg1) {
     tbNomPrenom.setCellValueFactory(new PropertyValueFactory<>("nom_complet"));
     
     tblProf.setItems(obAprofesseur);
+    txtNciVald.setVisible(false);
     List<Classe>classes=Fabrique.getService().listerClasse();
-        for (Classe classe : classes) {
-          cbox.getItems().add(classe);
-            
-        }
-        cbox.setOnAction(this::selectClasse);
-    
+        cbox.getItems().addAll(classes);
+        cboxFilter.getItems().addAll(classes);
+       
+       
 }
-public void selectClasse(ActionEvent event){
+public void handleselectClasse(){
   classe=cbox.getValue();
 
 }
+public void handleSelectClasseByFiltre(){
+  classeFiltre=cboxFilter.getValue();
+  obAprofesseur.clear();
+  obAprofesseur.addAll(Fabrique.getService().listerProfesseur(classeFiltre));
+
+}
+
 public void handleCreerProf(){
     String nci=textNci.getText().trim();
-    String grade=textGrade.getText().trim();
-    String nomPrenom=textNomPrenom.getText().trim();
-    String annee=textAnnee.getText().trim();
+    if(Fabrique.getService().rechercherProfesseurParNci(nci)==null){
+      String grade=textGrade.getText().trim();
+      String nomPrenom=textNomPrenom.getText().trim();
+      String annee=textAnnee.getText().trim();
     if(classe!=null){
       professeur=new Professeur(nomPrenom, nci, grade);
       Fabrique.getService().ajouterProfesseur(professeur);
@@ -78,20 +88,24 @@ public void handleCreerProf(){
       textNci.clear();
       textGrade.clear();
       textNomPrenom.clear();
+      
 
     }else{
       Alert alert=new Alert(AlertType.INFORMATION);
       alert.setTitle("Gestion D'inscription");
       alert.setContentText("Oups Cette classe n'existe pas !");
       alert.show();
+      
+
     }
+    txtNciVald.setVisible(false);
     
     
-    
-    
-    
-    
-    
-    
+}else{
+  txtNciVald.setVisible(true);
+
 }
+
+}
+    
 }

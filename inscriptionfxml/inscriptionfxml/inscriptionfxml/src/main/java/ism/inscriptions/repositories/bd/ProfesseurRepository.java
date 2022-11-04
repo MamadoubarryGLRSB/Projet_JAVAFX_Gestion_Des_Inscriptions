@@ -10,6 +10,7 @@ import java.util.List;
 
 
 import ism.inscriptions.core.MysqlDb;
+import ism.inscriptions.entities.Classe;
 import ism.inscriptions.entities.Professeur;
 import ism.inscriptions.repositories.IProfesseurRepository;
 
@@ -18,6 +19,7 @@ public class ProfesseurRepository extends MysqlDb implements IProfesseurReposito
     private final String SQL_SELECT_ALL="select * from user where role like 'ROLE_PROFESSEUR' ";
     private final String SQL_SELECT_BY_ID="select * from user where role like 'ROLE_PROFESSEUR' and id_user=? ";
     private final String SQL_SELECT_BY_NCI="select * from user where role like 'ROLE_PROFESSEUR' and nci like ? ";
+    private final String SQL_SELECT_BY_CLASSE="SELECT u.* FROM user u , affecter aff WHERE u.role LIKE 'ROLE_PROFESSEUR' AND aff.classe_id=? AND u.id=aff.prof_id; ";
     AffectationRepository affDao=new AffectationRepository();
     @Override
     public Professeur insert(Professeur prof) {
@@ -78,8 +80,9 @@ public class ProfesseurRepository extends MysqlDb implements IProfesseurReposito
             while(rs.next()){
                          Professeur   prof =new Professeur(rs.getInt("id"), 
                             rs.getString("nom_complet"), 
-                            rs.getString("grade"), 
-                            rs.getString("nci")); 
+                            rs.getString("nci"),
+                            rs.getString("grade"));
+                            
                         profs.add(prof);
                 
             }
@@ -91,6 +94,7 @@ public class ProfesseurRepository extends MysqlDb implements IProfesseurReposito
         return profs;
         
     }
+    
 
     @Override
     public Professeur findByNci(String nci) {
@@ -113,6 +117,35 @@ public class ProfesseurRepository extends MysqlDb implements IProfesseurReposito
         }
         this.fermerConnexionBd();
         return prof;
+    }
+    
+
+    @Override
+    public List<Professeur> findAllByClasse(Classe classe) {
+        List<Professeur> profs=new ArrayList<>();
+        this.ouvrirConnexionBd();
+        try {
+            ps=conn.prepareStatement(SQL_SELECT_BY_CLASSE);
+            ps.setInt(1, classe.getId());
+            ResultSet rs=ps.executeQuery();
+
+            while(rs.next()){
+                         Professeur   prof =new Professeur(rs.getInt("id"), 
+                            rs.getString("nom_complet"),
+                            rs.getString("nci"), 
+                            rs.getString("grade"));
+                            
+                            
+                        profs.add(prof);
+                
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        this.fermerConnexionBd();
+        return profs;
+        
     }
     
 }

@@ -2,6 +2,7 @@ package ism.inscriptions.repositories;
 
 import java.util.List;
 
+import ism.inscriptions.entities.Classe;
 import ism.inscriptions.entities.Etudiant;
 
 public interface IEtudiantRepository {
@@ -10,5 +11,10 @@ public interface IEtudiantRepository {
     public List<Etudiant> findAll(String annee);
     public Etudiant findByMatricule(String matricule);
     public List<Etudiant> findAll(String annee,int idclasse);
+    public List<Etudiant> findAllByClasse(Classe classe);
+    public Etudiant findById(int id);
+   
+
+    
 
 }

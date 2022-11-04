@@ -62,6 +62,7 @@ public class ClasseRepository extends MysqlDb implements IClasseRepository {
             //recuperez le dernier id qui a ete inserer
             ps=conn.prepareStatement(SQL_SELECT_BY_ID);
             ps.setInt(1,id);
+            //Recuperation des donnees
             ResultSet rs=ps.executeQuery();
             if(rs.next()){
                 classe =new Classe(
